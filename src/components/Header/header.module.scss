@@ -1,0 +1,16 @@
+.headerWrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 8vh;
+  background: rgb(2, 9, 41);
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.img {
+  height: 6vh;
+}

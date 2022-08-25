@@ -1,0 +1,58 @@
+.pokemonItem {
+  color: #fff;
+  background: rgb(48, 64, 121);
+  border-radius: 10px;
+  border: 2px solid rgb(132, 155, 245);
+  width: 250px;
+  margin: 10px 0;
+}
+
+.imageBlock {
+  text-align: center;
+  padding: 10px;
+  margin: 0 auto;
+  background: url(../../img/pokeball21.png) no-repeat center center, 
+    linear-gradient( rgba(48, 64, 121, 0.5), rgba(107, 133, 237, 0.9), rgba(48, 64, 121, 0.5)) ;
+  background-size: 90% ;
+  border-radius: 10px 10px 0 0;
+  width: 100%;
+  height: 246px;
+}
+
+.imageBlock img {
+  width: 150px;
+  margin: 20px auto;
+  // stroke: red;
+  // stroke-width: 10px;
+}
+
+.infoBlock {
+  background: rgb(11, 21, 62);
+  padding: 10px;
+  margin-bottom: 0;
+  border-radius: 0 0 10px 10px;
+  font-weight: bold;
+}
+
+.infoBlock h3 {
+  color: rgb(246, 238, 81);
+  height: 50px;
+}
+
+.infoBlock p {
+  margin: 0;
+}
+
+.types {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.types p {
+  font-size: 14px;
+  line-height: 16px;
+  background: rgba(107, 133, 237, 0.9);
+  padding: 2px;
+  margin: 2px;
+  border-radius: 2px;
+}

@@ -1,0 +1,28 @@
+.mainWrapper {
+  display: flex;
+  justify-content: center;
+  background: url(../../img/vector-may-2021-33.jpg) no-repeat;
+  background-size: cover;
+  min-height: 84vh;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px auto;
+  min-height: 84vh;
+  max-width: 1200px;
+  width: 100%;
+  background: rgba(252, 222, 74,0.45);
+}
+
+.block {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  height: 100%;
+  flex-grow: 1;
+  margin: 20px auto;
+}
+
