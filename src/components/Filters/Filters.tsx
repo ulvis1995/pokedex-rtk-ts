@@ -28,8 +28,8 @@ const Filters: React.FC = () => {
           onChange={handleChange}>
             <Option value="ascending_numbers">Номера по возрастанию</Option>
             <Option value="descending_numbers">Номера по убыванию</Option>
-            <Option value="alphabet_start_end">По алфавиту (от А к Я)</Option>
-            <Option value="alphabet_end_start">По алфавиту (от Я к А)</Option>
+            <Option value="alphabet_start_end">По алфавиту (от А к Z)</Option>
+            <Option value="alphabet_end_start">По алфавиту (от Z к А)</Option>
         </Select>
     </div>
   )
