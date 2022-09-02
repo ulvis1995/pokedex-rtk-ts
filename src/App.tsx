@@ -4,7 +4,7 @@ import Header from './components/Header/Header';
 import Main from './pages/Main/Main';
 import styles from './App.module.scss';
 import { Route, Routes } from 'react-router-dom';
-import ButtonScroll from './components/ButtonScroll/ButtonScroll';
+import ButtonScroll from './components/Buttons/Scroll/ButtonScroll';
 import PokemonPage from './pages/PokemonPage/PokemonPage';
 import { useAppSelector } from './app/hooks';
 

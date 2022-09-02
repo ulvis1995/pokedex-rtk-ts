@@ -16,10 +16,11 @@ const MiniCartPokemon: React.FC<MiniCartProps> = ({name}) => {
   const dispatch = useAppDispatch();
 
   const nameCapitalize = name.charAt(0).toUpperCase() + name.slice(1);
-  const imagePokemon = pokemon?.sprites?.other?.dream_world?.front_default
 
   React.useEffect(() => {
+    if (!pokemon) {
     dispatch(fetchPokemonItem(name))
+    }
   }, [])
 
   return (
@@ -27,7 +28,7 @@ const MiniCartPokemon: React.FC<MiniCartProps> = ({name}) => {
         <Link to={`/${name}`} className={styles.link}
           onClick={() => dispatch(choosePokemon(name))}>
           <div className={styles.imageBlock}>
-            <img src={imagePokemon ? imagePokemon : ''} alt={pokemon?.name}/>
+            <img src={pokemon?.image} alt={pokemon?.name}/>
           </div>
           <div className={styles.infoBlock}>
             <span>{
@@ -54,4 +55,4 @@ const MiniCartPokemon: React.FC<MiniCartProps> = ({name}) => {
   )
 }
 
-export default MiniCartPokemon;
+export default React.memo(MiniCartPokemon);
