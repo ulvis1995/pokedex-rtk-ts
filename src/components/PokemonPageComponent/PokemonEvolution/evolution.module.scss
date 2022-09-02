@@ -1,0 +1,169 @@
+@import '../../../scss/types.scss';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: rgb(185, 245, 252);
+  background: rgb(11, 21, 62);
+  border-radius: 20px;
+  margin: 10px;
+}
+
+.title h2{
+  color: rgb(185, 245, 252);
+  padding: 4px;
+  margin: 0;
+}
+
+.evolution_list, .title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.evolution_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+
+  &::after {
+    content: '';
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: url('../../../img/arrow.svg') no-repeat;
+    background-size: contain;
+    transform: rotate(90deg);
+  }
+  &:last-child {
+    &::after {
+      content: none;
+    }
+  }
+}
+
+.evolution_item:hover .imageBlock{
+  box-shadow: 0 0 20px rgb(185, 245, 252);
+}
+
+.imageBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: rgb(185, 245, 252);
+  border-radius: 50%;
+  padding: 20px;
+}
+
+.imageBlock img {
+  padding: 10px;
+  width: 90%;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  flex-grow: 1;
+}
+
+.info h3, .info div{
+  font-size: 5vw;
+  color: #fff;
+  margin: 0;
+}
+
+.types {
+  display: flex;
+  justify-content: space-around;
+}
+
+.typeItem {
+  font-size: 3vw;
+  line-height: 4vw;
+  text-align: center;
+  min-width: 60px;
+  max-width: 80px;
+  padding: 2px;
+  margin: 0;
+  border-radius: 8px;
+}
+
+@media(min-width: 500px) {
+  .wrapper {
+    width: 50%;
+    margin: 10px auto;
+  }
+  .evolution_list, .title {
+    width: 100%;
+  }
+}
+
+@media (min-width: 700px) {
+  .wrapper {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .evolution_list, .title {
+    width: 100%;
+    margin: 10px;
+  }
+
+  .evolution_list {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  .evolution_item{
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-around;
+    width: 33%;
+    margin: 10px 30px;
+    &::after {
+      margin-left: 130%;
+      margin-bottom: -40px;
+      position: relative;
+      bottom: 65%;
+      transform: rotate(0deg);
+    }
+    
+    &:last-child {
+      margin-bottom: 20px;
+    }
+  }
+
+  .imageBlock {
+    width: 100%;
+    min-height: 160px;
+  }
+
+  .imageBlock img {
+    max-height: 200px;
+  }
+
+  .info h3 {
+    font-size: 20px;
+  }
+
+  .typeItem {
+    font-size: 14px;
+    line-height: 18px;
+  }
+}
+
+
+@media (min-width: 950px) {
+  .evolution_item{
+    margin: 10px 30px;
+    &::after {
+      margin-left: 120%;
+    }
+
+  }
+}

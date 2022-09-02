@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { choosePokemon } from '../../../store/slices/PokemonDataSlice';
-import { Pokemon } from '../../../types/pokemonType';
+import { PokemonStore } from '../../../types/pokemonType';
 import styles from './sliderPoke.module.scss';
 
 type SliderProps = {
-  pokemon: Pokemon | undefined
+  pokemon: PokemonStore | undefined
 }
 
 const SliderPokeItem: React.FC<SliderProps> = ({pokemon}) => {

@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice, AnyAction, PayloadAction } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { Pokemon } from "../../types/pokemonType";
+import { useAppSelector } from "../../app/hooks";
+import { Pokemon, PokemonStore } from "../../types/pokemonType";
 
 
 interface pokemonListType {
-  pokemonList: Pokemon[],
+  pokemonList: PokemonStore[],
   currentPokemon: string | null
 }
 
@@ -13,15 +14,25 @@ const initialState: pokemonListType = {
   currentPokemon: null
 }
 
-export const fetchPokemonItem = createAsyncThunk<Pokemon, string>(
+export const fetchPokemonItem = createAsyncThunk< PokemonStore, string>(
   'pokemonList/fetchPokemon',
   async function (name) {
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`, 
         {headers: {
           'Content-Type': 'application/json'}})
 
-    const data = response.data;
-    return data
+    const data = response.data
+    return {
+      name: data.name,
+      abilities: data.abilities,
+      height: data.height,
+      id: data.id,
+      species: data.species.url,
+      image: data.sprites.other.dream_world.front_default,
+      stats: data.stats,
+      types: data.types, 
+      weight: data.weight
+    }
   }  
 )
 
@@ -35,8 +46,14 @@ const pokemonSlice = createSlice ({
   },
   extraReducers: builder =>  {
       builder
-      .addCase (fetchPokemonItem.fulfilled, (state, action) => {
-        state.pokemonList = [...state.pokemonList, action.payload];
+      .addCase (fetchPokemonItem.fulfilled, (state, action) => {        
+        state.pokemonList = [...state.pokemonList, action.payload]
+        .reduce((res: PokemonStore[], poke) => {
+          if (!res.find(i => i.name === poke.name)) {
+            res.push(poke)
+          }
+          return res
+        }, [])
       })
   },
 })
