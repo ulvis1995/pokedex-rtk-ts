@@ -56,7 +56,7 @@ const PokeInfoBlock: React.FC<PokeInfoProps> = ({pokemon, description}) => {
             {pokemon.stats.map(stat => {
               const remain = 200 - stat.base_stat
               const divStyle = {
-                background: `linear-gradient( #304079 ${remain}px, #d7d5af ${stat.base_stat}px)`
+                background: `linear-gradient(180deg, #304079 ${remain}px, #d7d5af ${stat.base_stat}px)`
               }
 
               return (
