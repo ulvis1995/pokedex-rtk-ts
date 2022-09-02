@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../../app/hooks';
-import { choosePokemon } from '../../../store/slices/PokemonDataSlice';
-import { EvolutionChain, Pokemon } from '../../../types/pokemonType';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { addPokemon, choosePokemon } from '../../../store/slices/PokemonDataSlice';
+import { EvolutionChain, PokemonStore } from '../../../types/pokemonType';
 import styles from './evolution.module.scss';
 
 type PokeInfoProps = {
@@ -12,8 +12,9 @@ type PokeInfoProps = {
 
 const PokemonEvolution:React.FC<PokeInfoProps> = ({species}) => {
   const dispatch = useAppDispatch();
+  const pokemonBase = useAppSelector(state => state.pokemonList.pokemonList)
   const [evolutionListUrl, setEvolUrl] = React.useState<EvolutionChain | undefined>();
-  const [evolutionList, setPokemons] = React.useState<Pokemon[]>([]);
+  const [evolutionList, setPokemons] = React.useState<PokemonStore[]>([]);
 
   const loadSpecies = async () => {
     if (species) {
@@ -32,15 +33,34 @@ const PokemonEvolution:React.FC<PokeInfoProps> = ({species}) => {
   const firdStep = evolutionListUrl?.chain?.evolves_to?.[0]?.evolves_to?.[0]?.species?.name;
 
   const loadEvolutionStep = async (name: string | undefined) => {
-    const responce = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
-    const data = await responce.data;
-    setPokemons( (prev) => [...prev, {...data}])
+    if (name) {
+      const pokemonLoad = pokemonBase.find(poke => poke.name === name)
+      if (pokemonLoad) {
+        setPokemons((prev) => [...prev, {...pokemonLoad}])
+      } else {
+        const responce = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        const data = await responce.data;
+        const newPokemon = {
+          name: data.name,
+          abilities: data.abilities,
+          height: data.height,
+          id: data.id,
+          species: data.species.url,
+          image: data.sprites.other.dream_world.front_default,
+          stats: data.stats,
+          types: data.types, 
+          weight: data.weight
+        }
+        setPokemons((prev) => [...prev, {...newPokemon}])
+        dispatch(addPokemon(newPokemon))
+      }
+    }    
   }
 
   const fetchEvolution = async () => {
-    loadEvolutionStep(firstStep);
-    loadEvolutionStep(secondStep);
-    loadEvolutionStep(firdStep);
+    await loadEvolutionStep(firstStep);
+    await loadEvolutionStep(secondStep);
+    await loadEvolutionStep(firdStep);
   }
 
   React.useEffect(() => {
@@ -59,7 +79,7 @@ const PokemonEvolution:React.FC<PokeInfoProps> = ({species}) => {
       </div>
       <div className={styles.evolution_list}>
         {evolutionList.map(poke => {
-          const imagePokemon = poke?.sprites?.other?.dream_world?.front_default
+          const imagePokemon = poke?.image
           
           return (
             <Link to={{pathname: `/${poke.name}`}} 

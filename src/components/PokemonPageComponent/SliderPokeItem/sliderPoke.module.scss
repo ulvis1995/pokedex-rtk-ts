@@ -11,7 +11,7 @@
   margin: 50px auto;
 }
 
-.pokemonStep, .pokemonId {
+.pokemonStep, .pokemonId, .pokemonStepEmpty {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -20,7 +20,7 @@
   margin: 0 auto;
 }
 
-.pokemonStep {
+.pokemonStep, .pokemonStepEmpty {
   text-decoration: none;
   color: #fff;
   flex-wrap: nowrap;

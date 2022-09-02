@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { choosePokemon } from '../../../store/slices/PokemonDataSlice';
+import { choosePokemon, fetchPokemonItem } from '../../../store/slices/PokemonDataSlice';
 import { PokemonStore } from '../../../types/pokemonType';
 import styles from './sliderPoke.module.scss';
 
@@ -11,21 +11,26 @@ type SliderProps = {
 
 const SliderPokeItem: React.FC<SliderProps> = ({pokemon}) => {
   const dispatch = useAppDispatch ();
-  // const pokemon = useAppSelector(state => 
-  //     state.pokemonList.pokemonList.find(
-  //       poke => poke.name === name
-  //     ))
 
   const pokemonNext = useAppSelector(state => 
     state.pokemonList.pokemonList.find(
-      poke => poke.id === (pokemon ?pokemon.id + 1 : 0)
+      poke => poke.id === (pokemon && pokemon.id + 1)
     ))
 
   const pokemonPrev = useAppSelector(state => 
     state.pokemonList.pokemonList.find(
-      poke => poke.id === (pokemon ?pokemon.id - 1 : 0)
+      poke => poke.id === (pokemon && pokemon.id - 1)
     ))
 
+  React.useEffect(() => {
+    if (!pokemonNext && pokemon) {
+      dispatch(fetchPokemonItem(pokemon.id+1))
+    }
+  
+    if (!pokemonPrev && pokemon) {
+      dispatch(fetchPokemonItem(pokemon.id-1))
+    }
+  }, [pokemon])
 
   const nameCapitalize = pokemon && 
     pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
@@ -53,7 +58,7 @@ const SliderPokeItem: React.FC<SliderProps> = ({pokemon}) => {
             <p>{nameCapPrevious}</p>
           </div>
         </Link>
-        : <div className={styles.pokemonStep}></div>}
+        : <div className={styles.pokemonStepEmpty}></div>}
       <div className={styles.pokemonId}>
         <p>{`${pokemon &&
               pokemon.id < 10
@@ -81,7 +86,7 @@ const SliderPokeItem: React.FC<SliderProps> = ({pokemon}) => {
           </div>
           <button>&#10097;</button>
         </Link>
-        : <div className={styles.pokemonStep}></div>}
+        : <div className={styles.pokemonStepEmpty}></div>}
     </div>
   )
 }

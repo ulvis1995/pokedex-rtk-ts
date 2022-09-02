@@ -14,7 +14,7 @@ const initialState: pokemonListType = {
   currentPokemon: null
 }
 
-export const fetchPokemonItem = createAsyncThunk< PokemonStore, string>(
+export const fetchPokemonItem = createAsyncThunk< PokemonStore, string | number>(
   'pokemonList/fetchPokemon',
   async function (name) {
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`, 
@@ -42,6 +42,15 @@ const pokemonSlice = createSlice ({
   reducers: {
     choosePokemon(state, action) {
       state.currentPokemon = action.payload
+    },
+    addPokemon (state, action) {
+      state.pokemonList = [...state.pokemonList, action.payload]
+        .reduce((res: PokemonStore[], poke) => {
+          if (!res.find(i => i.name === poke.name)) {
+            res.push(poke)
+          }
+          return res
+        }, [])
     }
   },
   extraReducers: builder =>  {
@@ -58,7 +67,7 @@ const pokemonSlice = createSlice ({
   },
 })
 
-export const {choosePokemon} = pokemonSlice.actions;
+export const {choosePokemon, addPokemon} = pokemonSlice.actions;
 export default pokemonSlice.reducer;
 
 function isError(action: AnyAction) {
