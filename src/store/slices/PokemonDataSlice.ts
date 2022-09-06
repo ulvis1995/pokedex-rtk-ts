@@ -1,37 +1,38 @@
-import { createAsyncThunk, createSlice, AnyAction, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, AnyAction, PayloadAction} from "@reduxjs/toolkit";
 import axios from 'axios';
-import { useAppSelector } from "../../app/hooks";
 import { Pokemon, PokemonStore } from "../../types/pokemonType";
 
 
-interface pokemonListType {
+export interface pokemonListType {
   pokemonList: PokemonStore[],
-  currentPokemon: string | null
+  currentPokemon: string | null,
+  error: string ,
+  isLoading: boolean,
 }
 
 const initialState: pokemonListType = {
   pokemonList: [],
-  currentPokemon: null
+  currentPokemon: null,
+  error: '',
+  isLoading: false,
 }
 
-export const fetchPokemonItem = createAsyncThunk< PokemonStore, string | number>(
+export const fetchPokemonItem = createAsyncThunk<Pokemon, string | number, {rejectValue: string}>(
   'pokemonList/fetchPokemon',
-  async function (name) {
-    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`, 
-        {headers: {
-          'Content-Type': 'application/json'}})
-
-    const data = response.data
-    return {
-      name: data.name,
-      abilities: data.abilities,
-      height: data.height,
-      id: data.id,
-      species: data.species.url,
-      image: data.sprites.other.dream_world.front_default,
-      stats: data.stats,
-      types: data.types, 
-      weight: data.weight
+  async function (name, {rejectWithValue}) {
+    try {
+      const response = await axios.get<Pokemon>(
+        `https://pokeapi.co/api/v2/pokemon/${name}`, 
+          {headers: {
+            'Content-Type': 'application/json'}})
+            
+      const data = response.data
+      return data
+    } catch (error: any) {
+      if (!error.response) {
+        throw error
+      }
+      return rejectWithValue('Pokemon not found')
     }
   }  
 )
@@ -51,12 +52,28 @@ const pokemonSlice = createSlice ({
           }
           return res
         }, [])
+    }, 
+    filtredPokemons (state,action) {
+      state.pokemonList = action.payload
     }
   },
   extraReducers: builder =>  {
       builder
-      .addCase (fetchPokemonItem.fulfilled, (state, action) => {        
-        state.pokemonList = [...state.pokemonList, action.payload]
+      .addCase (fetchPokemonItem.fulfilled, (state, action: PayloadAction<Pokemon>) => {        
+        state.isLoading = false;
+        state.error = '';
+        state.pokemonList = [...state.pokemonList, {
+          name: action.payload.name,
+          abilities: action.payload.abilities,
+          height: action.payload.height,
+          id: action.payload.id,
+          species: action.payload.species.url,
+          image: action.payload.sprites.other.dream_world.front_default,
+          image_2: action.payload.sprites.other['official-artwork'].front_default,
+          stats: action.payload.stats,
+          types: action.payload.types, 
+          weight: action.payload.weight
+        }]
         .reduce((res: PokemonStore[], poke) => {
           if (!res.find(i => i.name === poke.name)) {
             res.push(poke)
@@ -64,10 +81,18 @@ const pokemonSlice = createSlice ({
           return res
         }, [])
       })
+      .addCase (fetchPokemonItem.pending, (state) => {
+        state.isLoading = true;
+        state.error = ''
+      })
+      .addMatcher(isError, (state, action: PayloadAction<string>) => {
+        state.error = action.payload;
+        state.isLoading = false
+      })
   },
 })
 
-export const {choosePokemon, addPokemon} = pokemonSlice.actions;
+export const {choosePokemon, addPokemon, filtredPokemons} = pokemonSlice.actions;
 export default pokemonSlice.reducer;
 
 function isError(action: AnyAction) {

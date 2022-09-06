@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { addPokemon, choosePokemon } from '../../../store/slices/PokemonDataSlice';
 import { EvolutionChain, PokemonStore } from '../../../types/pokemonType';
 import styles from './evolution.module.scss';
+import pokeball from '../../../img/pokeball-mini.png';
 
 type PokeInfoProps = {
   species: string,
@@ -47,6 +48,7 @@ const PokemonEvolution:React.FC<PokeInfoProps> = ({species}) => {
           id: data.id,
           species: data.species.url,
           image: data.sprites.other.dream_world.front_default,
+          image_2: data.sprites.other['official-artwork'].front_default,
           stats: data.stats,
           types: data.types, 
           weight: data.weight
@@ -74,34 +76,40 @@ const PokemonEvolution:React.FC<PokeInfoProps> = ({species}) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.title}>
-        <h2>Evolution</h2>
-      </div>
-      <div className={styles.evolution_list}>
-        {evolutionList.map(poke => {
-          const imagePokemon = poke?.image
-          
-          return (
-            <Link to={{pathname: `/${poke.name}`}} 
-              className={styles.evolution_item}
-              key={poke.name}
-              onClick={() => dispatch(choosePokemon(poke.name))}>
-              <div className={styles.imageBlock}>
-                <img src={imagePokemon ? imagePokemon : ''} alt={poke?.name}/>
-              </div>
-              <div className={styles.info}>
-                <h3>{poke?.name}</h3>
-                <div className={styles.types}>
-                  {poke?.types.map(type => 
-                    <p className={`${styles.typeItem} ` + type.type.name}
-                      key={type.type.name}>
-                      {type.type.name}
-                    </p>
-                    )}
+      <div className={styles.content}>
+        <div className={styles.title}>
+          <h2>Evolution</h2>
+        </div>
+        <div className={styles.evolution_list}>
+          {evolutionList.map(poke => {
+              const imagePokemon = poke?.image !== null 
+                                  ? poke?.image
+                                  : poke.image_2 !== null 
+                                    ? poke.image_2 
+                                    : pokeball
+            
+            return (
+              <Link to={{pathname: `/${poke.name}`}} 
+                className={styles.evolution_item}
+                key={poke.name}
+                onClick={() => dispatch(choosePokemon(poke.name))}>
+                <div className={styles.imageBlock}>
+                  <img src={imagePokemon} alt={poke?.name}/>
                 </div>
-              </div>
-            </Link >
-          )})}
+                <div className={styles.info}>
+                  <h3>{poke?.name}</h3>
+                  <div className={styles.types}>
+                    {poke?.types.map(type => 
+                      <p className={`${styles.typeItem} ` + type.type.name}
+                        key={type.type.name}>
+                        {type.type.name}
+                      </p>
+                      )}
+                  </div>
+                </div>
+              </Link >
+            )})}
+        </div>
       </div>
     </div>
   )

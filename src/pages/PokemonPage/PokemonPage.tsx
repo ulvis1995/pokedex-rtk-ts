@@ -20,7 +20,7 @@ const PokemonPage: React.FC<PokemonPageProps> = ({name}) =>  {
     ))  
 
     const loadDescpription = async () => {
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${pokemon?.name}`)
+      const response = await axios.get(`${pokemon?.species}`)
       const data = response.data
       setSpecies( data.evolution_chain.url);
       setDescription (data.flavor_text_entries[0].flavor_text)

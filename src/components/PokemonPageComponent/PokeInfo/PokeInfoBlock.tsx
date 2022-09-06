@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './pokeinfo.module.scss';
 import {PokemonSpecies, PokemonStore } from '../../../types/pokemonType';
+import pokeball from '../../../img/pokeball-mini.png';
 
 type PokeInfoProps = {
   pokemon: PokemonStore | undefined,
@@ -9,6 +10,12 @@ type PokeInfoProps = {
 
 const PokeInfoBlock: React.FC<PokeInfoProps> = ({pokemon, description}) => {
 
+  const imagePokemon = pokemon?.image !== null 
+                        ? pokemon?.image
+                        : pokemon.image_2 !== null 
+                          ? pokemon.image_2 
+                          : pokeball
+
   return ( 
     <>
     {pokemon 
@@ -16,7 +23,7 @@ const PokeInfoBlock: React.FC<PokeInfoProps> = ({pokemon, description}) => {
       <div className={styles.wrapper}>      
         <div className={styles.pokemonBlock}>
           <div className={styles.pokeImg}>
-            <img src={pokemon.image} alt={pokemon.name}/>
+            <img src={imagePokemon} alt={pokemon.name}/>
           </div>
           <div className={styles.pokeInfo}>
             <div>
@@ -31,7 +38,8 @@ const PokeInfoBlock: React.FC<PokeInfoProps> = ({pokemon, description}) => {
               <p>Abilities</p>
               { pokemon.abilities.map(item => <span key={item.ability.name}>{!item.is_hidden ? item.ability.name : ''}</span>)}
             </div>
-            <div className={styles.versions}>
+            {description !== '' 
+            ?<div className={styles.versions}>
               <div>
                 <p>Description</p>
               </div>
@@ -39,6 +47,7 @@ const PokeInfoBlock: React.FC<PokeInfoProps> = ({pokemon, description}) => {
                 <p>{description}</p>
               </div>
             </div>
+            : ''}
           </div>
         </div>    
         <div className={styles.types}>

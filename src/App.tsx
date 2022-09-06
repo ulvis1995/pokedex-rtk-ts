@@ -9,14 +9,13 @@ import PokemonPage from './pages/PokemonPage/PokemonPage';
 import { useAppSelector } from './app/hooks';
 
 function App() {
-  const name = useAppSelector( state => state.pokemonList.currentPokemon)
+  const name = useAppSelector( state => state.pokemonList.currentPokemon);
 
   return (
     <div className={styles.app}>
       <Header/>
       <Routes>
         <Route path='/' element={<Main />} />
-        {/* <Route path ={`/`} element={<PokemonPage/>} /> */}
         <Route path ={`/${name}`} element={<PokemonPage name={name}/>} />
       </Routes>
       <Footer />
