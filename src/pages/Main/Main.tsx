@@ -8,6 +8,7 @@ import ButtonLoadMore from '../../components/Buttons/More/ButtonLoadMore';
 import { fetchPokemonItem } from '../../store/slices/PokemonDataSlice';
 import Error from '../../components/Error/ErrorSearch';
 import ErrorMain from '../../components/Error/ErrorMain';
+import LoadingMain from '../../components/Loading/LoadingMain/LoadingMain';
 
 const Main: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -16,7 +17,8 @@ const Main: React.FC = () => {
   const errorMain = useAppSelector( state => state.loadPokemon.error);
   const error = useAppSelector(state => state.pokemonList.error);
   const urlType = useAppSelector ( state => state.types.type);
-  const pokemonType = useAppSelector (state => state.types.pokemonType)
+  const pokemonType = useAppSelector (state => state.types.pokemonType);
+  const loading = useAppSelector( state => state.loadPokemon.isLoading)
   const pokemons = loadPokemon.reduce((res: Results[], poke) => {
     if (!res.find(i => i.name === poke.name)) {
       res.push(poke)
@@ -34,10 +36,12 @@ const Main: React.FC = () => {
   }, [search, urlType])
 
   return (
-    <div className={styles.mainWrapper}>
+    <>
+    {loading 
+    ? <LoadingMain />
+    :<div className={styles.mainWrapper}>
       {errorMain === 'Not found'
-        ? <ErrorMain /> 
-        
+        ? <ErrorMain />         
         : <div className={styles.mainContent}>
             <Filters />
             {search && search !== null
@@ -56,12 +60,13 @@ const Main: React.FC = () => {
                     <MiniCartPokemon name={pokemon.name} key={index}/>)}
                 </div>
                 }
-            {search !== null
+            {search !== null || urlType !== null
               ? <div className={styles.empty}></div> 
               : <ButtonLoadMore />}
           </div>
       } 
-    </div>
+    </div>}
+    </>
   )
 }
 

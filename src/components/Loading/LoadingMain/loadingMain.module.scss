@@ -1,0 +1,15 @@
+.wrapperLoad {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  background: rgb(249, 230, 102);
+  min-height: 84vh;
+  width: 100%; 
+  margin: 0 auto;
+}
+
+.wrapperLoad img {
+  border-bottom: 10px solid rgba(2, 9, 41, 0.5);
+}
