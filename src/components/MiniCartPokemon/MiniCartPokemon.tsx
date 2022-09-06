@@ -4,11 +4,13 @@ import styles from './minicart.module.scss';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { choosePokemon, fetchPokemonItem } from '../../store/slices/PokemonDataSlice';
 import pokeball from '../../img/pokeball-mini.png';
+import LoadingMini from '../Loading/LoadingMinicard/LoadingMini';
 
 interface MiniCartProps {
   name: string | number,
 }
 const MiniCartPokemon: React.FC<MiniCartProps> = ({name}) => {
+  const loading = useAppSelector( state => state.pokemonList.isLoading)
   const pokemon = useAppSelector(state => 
     state.pokemonList.pokemonList.find(
         poke => isNaN(Number(name)) 
@@ -34,7 +36,9 @@ const MiniCartPokemon: React.FC<MiniCartProps> = ({name}) => {
 
   return (
       <div className={styles.pokemonItem}>
-        <Link to={`/${pokemon?.name}`} className={styles.link}
+        {loading && !pokemon
+        ? <LoadingMini />
+        :<Link to={`/${pokemon?.name}`} className={styles.link}
           onClick={() => dispatch(choosePokemon(pokemon?.name))}>
           <div className={styles.imageBlock}>
             <img src={imagePokemon} alt={pokemon?.name}/>
@@ -59,7 +63,7 @@ const MiniCartPokemon: React.FC<MiniCartProps> = ({name}) => {
               ))}
             </div>
           </div>
-        </Link>
+        </Link>}
       </div>
   )
 }

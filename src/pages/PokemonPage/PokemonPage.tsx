@@ -5,12 +5,14 @@ import PokeInfoBlock from '../../components/PokemonPageComponent/PokeInfo/PokeIn
 import { useAppSelector } from '../../app/hooks';
 import PokemonEvolution from '../../components/PokemonPageComponent/PokemonEvolution/PokemonEvolution';
 import axios from 'axios';
+import LoadingMain from '../../components/Loading/LoadingMain/LoadingMain';
 
 type PokemonPageProps = {
   name: string | null
 }
 
 const PokemonPage: React.FC<PokemonPageProps> = ({name}) =>  {  
+  const loading = useAppSelector (state => state.pokemonList.isLoading)
   const [species, setSpecies] = React.useState<string>('');
   const [description, setDescription] = React.useState<string>('');
 
@@ -32,11 +34,13 @@ const PokemonPage: React.FC<PokemonPageProps> = ({name}) =>  {
 
   return (
     <div className={styles.pokemon_item_wrapper}>
-      <div className={styles.pokemonContent}>
+      {loading
+      ? <LoadingMain />
+      :<div className={styles.pokemonContent}>
         <SliderPokeItem pokemon={pokemon}/>
         <PokeInfoBlock pokemon={pokemon} description={description}/>
         <PokemonEvolution species={species}/>
-      </div>
+      </div>}
     </div>
   )
 }

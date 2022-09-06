@@ -6,6 +6,7 @@ import { addPokemon, choosePokemon } from '../../../store/slices/PokemonDataSlic
 import { EvolutionChain, PokemonStore } from '../../../types/pokemonType';
 import styles from './evolution.module.scss';
 import pokeball from '../../../img/pokeball-mini.png';
+import LoadingEvo from '../../Loading/LoadingEvolution/LoadingEvo';
 
 type PokeInfoProps = {
   species: string,
@@ -13,7 +14,8 @@ type PokeInfoProps = {
 
 const PokemonEvolution:React.FC<PokeInfoProps> = ({species}) => {
   const dispatch = useAppDispatch();
-  const pokemonBase = useAppSelector(state => state.pokemonList.pokemonList)
+  const pokemonBase = useAppSelector(state => state.pokemonList.pokemonList);
+  const [loading, setLoading] = React.useState<boolean>(true);
   const [evolutionListUrl, setEvolUrl] = React.useState<EvolutionChain | undefined>();
   const [evolutionList, setPokemons] = React.useState<PokemonStore[]>([]);
 
@@ -68,6 +70,7 @@ const PokemonEvolution:React.FC<PokeInfoProps> = ({species}) => {
   React.useEffect(() => {
     if (evolutionListUrl) {
       fetchEvolution();
+      setLoading(false);
       return () => {
         setPokemons([])
       }
@@ -76,7 +79,9 @@ const PokemonEvolution:React.FC<PokeInfoProps> = ({species}) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.content}>
+      {loading 
+      ? <LoadingEvo />
+      :<div className={styles.content}>
         <div className={styles.title}>
           <h2>Evolution</h2>
         </div>
@@ -110,7 +115,7 @@ const PokemonEvolution:React.FC<PokeInfoProps> = ({species}) => {
               </Link >
             )})}
         </div>
-      </div>
+      </div>}
     </div>
   )
 }
