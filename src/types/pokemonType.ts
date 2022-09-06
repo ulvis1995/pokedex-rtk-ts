@@ -37,7 +37,7 @@ export interface Pokemon {
         front_shiny_female: string | null
       },
       'official-artwork': {
-        front_default: string | null
+        front_default: string
       },
     },
     versions: object,
@@ -60,6 +60,7 @@ export interface PokemonStore {
   types: {slot: number, type: {name: string, url: string}}[],
   weight: number,
   image: string,
+  image_2: string
 } 
 
 export interface PokemonSpecies {

@@ -1,0 +1,23 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.error h3 {
+  color: rgb(4, 14, 58);
+  font-size: 30px;
+  line-height: 34px;
+  font-weight: bold;
+  font-style: italic;
+  text-shadow: 2px 2px rgb(248, 200, 58);
+  width: 80%;
+  margin: 0;
+}
+
+.error img {
+  width: 40%;
+}
