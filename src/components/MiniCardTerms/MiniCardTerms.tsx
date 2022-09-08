@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './miniCartTerms.module.scss';
+import styles from './miniCardTerms.module.scss';
 
-import MiniCartPokemon from '../MiniCartPokemon/MiniCardPokemon';
+import MiniCardPokemon from '../MiniCardPokemon/MiniCardPokemon';
 import Error from '../Error/ErrorSearch';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -31,12 +31,12 @@ const MiniCardTerms: React.FC<MiniCardTermsProps> = (props) => {
       ? error === 'Pokemon not found'
         ? <Error />
         : <div className={styles.block}>
-            <MiniCartPokemon name={props.search}/>
+            <MiniCardPokemon name={props.search}/>
           </div>
       : <div className={styles.block}>
         {(props.urlType !== null ? pokemonType : props.pokemons)
           .map((pokemon, index) => 
-            <MiniCartPokemon name={pokemon.name} key={index}/>)}
+            <MiniCardPokemon name={pokemon.name} key={index}/>)}
         </div>
       }
     </>

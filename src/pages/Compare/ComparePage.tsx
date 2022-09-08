@@ -5,7 +5,7 @@ import noneCompare from '../../img/errorMain.webp';
 
 import { useAppSelector } from '../../app/hooks';
 import ButtonCompare from '../../components/Buttons/ButtonCompare/ButtonCompare';
-import MiniCartPokemon from '../../components/MiniCartPokemon/MiniCardPokemon';
+import MiniCardPokemon from '../../components/MiniCardPokemon/MiniCardPokemon';
 import PhysicalDataPoke from '../../components/PhysicalDataPoke/PhysicalDataPoke';
 import ButtonMoreOrDelete from '../../components/Buttons/MoreOrDelete/ButtonMoreOrDelete';
 
@@ -42,7 +42,7 @@ const ComparePage: React.FC = () => {
           {comparablePokemons.map (poke => 
           <li className={st.item} key={poke.name}>
             <ButtonCompare name={poke.name}>Удалить</ButtonCompare>
-            <MiniCartPokemon name={poke.name}/>
+            <MiniCardPokemon name={poke.name}/>
             <PhysicalDataPoke pokemon={poke} description={undefined}/>
           </li>)}
         </ul>
