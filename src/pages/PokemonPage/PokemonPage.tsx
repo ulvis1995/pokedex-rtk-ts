@@ -6,10 +6,7 @@ import { useAppSelector } from '../../app/hooks';
 import PokemonEvolution from '../../components/PokemonPageComponent/PokemonEvolution/PokemonEvolution';
 import axios from 'axios';
 import LoadingMain from '../../components/Loading/LoadingMain/LoadingMain';
-
-type PokemonPageProps = {
-  name: string | null
-}
+import { PokemonPageProps } from '../../types/componentProps';
 
 const PokemonPage: React.FC<PokemonPageProps> = ({name}) =>  {  
   const loading = useAppSelector (state => state.pokemonList.isLoading)

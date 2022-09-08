@@ -2,12 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { choosePokemon, fetchPokemonItem } from '../../../store/slices/PokemonDataSlice';
-import { PokemonStore } from '../../../types/pokemonType';
+import { SliderProps } from '../../../types/componentProps';
 import styles from './sliderPoke.module.scss';
-
-type SliderProps = {
-  pokemon: PokemonStore | undefined
-}
 
 const SliderPokeItem: React.FC<SliderProps> = ({pokemon}) => {
   const dispatch = useAppDispatch ();
@@ -27,7 +23,7 @@ const SliderPokeItem: React.FC<SliderProps> = ({pokemon}) => {
       dispatch(fetchPokemonItem(pokemon.id+1))
     }
   
-    if (!pokemonPrev && pokemon) {
+    if (!pokemonPrev && pokemon &&  pokemon.id - 1 !== 0 ) {
       dispatch(fetchPokemonItem(pokemon.id-1))
     }
   }, [pokemon])

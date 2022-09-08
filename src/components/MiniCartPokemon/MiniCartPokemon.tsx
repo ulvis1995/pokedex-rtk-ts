@@ -2,13 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './minicart.module.scss';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { choosePokemon, fetchPokemonItem } from '../../store/slices/PokemonDataSlice';
+import { choosePokemon, fetchPokemonItem, loadingState } from '../../store/slices/PokemonDataSlice';
 import pokeball from '../../img/pokeball-mini.png';
 import LoadingMini from '../Loading/LoadingMinicard/LoadingMini';
+import { MiniCartProps } from '../../types/componentProps';
 
-interface MiniCartProps {
-  name: string | number,
-}
 const MiniCartPokemon: React.FC<MiniCartProps> = ({name}) => {
   const loading = useAppSelector( state => state.pokemonList.isLoading)
   const pokemon = useAppSelector(state => 
@@ -23,6 +21,7 @@ const MiniCartPokemon: React.FC<MiniCartProps> = ({name}) => {
     if (!pokemon) {
     dispatch(fetchPokemonItem(name))
     }
+    dispatch(loadingState())
   }, [name])
 
   const nameCapitalize = pokemon && pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);

@@ -3,28 +3,25 @@ import Filters from '../../components/Filters/Filters';
 import MiniCartPokemon from '../../components/MiniCartPokemon/MiniCartPokemon';
 import styles from './main.module.scss';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { fetchloadPokemon, Results } from '../../store/slices/LoadPokemonSlice';
-import ButtonLoadMore from '../../components/Buttons/More/ButtonLoadMore';
+import { fetchloadPokemon} from '../../store/slices/LoadPokemonSlice';
+import ButtonMoreOrDelete from '../../components/Buttons/More/ButtonMoreOrDelete';
 import { fetchPokemonItem } from '../../store/slices/PokemonDataSlice';
 import Error from '../../components/Error/ErrorSearch';
 import ErrorMain from '../../components/Error/ErrorMain';
 import LoadingMain from '../../components/Loading/LoadingMain/LoadingMain';
+import { Results } from '../../types/loadPokemonAndFilter';
 
 const Main: React.FC = () => {
   const dispatch = useAppDispatch();
-  const loadPokemon = useAppSelector(state => state.loadPokemon.results);
-  const search = useAppSelector( state => state.loadPokemon.search);
-  const errorMain = useAppSelector( state => state.loadPokemon.error);
-  const error = useAppSelector(state => state.pokemonList.error);
+  const {results, search, error, isLoading} = useAppSelector (({loadPokemon}) => loadPokemon)
   const urlType = useAppSelector ( state => state.types.type);
   const pokemonType = useAppSelector (state => state.types.pokemonType);
-  const loading = useAppSelector( state => state.loadPokemon.isLoading)
-  const pokemons = loadPokemon.reduce((res: Results[], poke) => {
+  const pokemons = results.reduce((res: Results[], poke) => {
     if (!res.find(i => i.name === poke.name)) {
       res.push(poke)
     }
     return res
-  }, [])
+  }, []);
 
   React.useEffect(() => {
     if (search && search !== null) {
@@ -37,10 +34,10 @@ const Main: React.FC = () => {
 
   return (
     <>
-    {loading 
+    {isLoading 
     ? <LoadingMain />
     :<div className={styles.mainWrapper}>
-      {errorMain === 'Not found'
+      {error === 'Not found'
         ? <ErrorMain />         
         : <div className={styles.mainContent}>
             <Filters />
@@ -62,7 +59,7 @@ const Main: React.FC = () => {
                 }
             {search !== null || urlType !== null
               ? <div className={styles.empty}></div> 
-              : <ButtonLoadMore />}
+              : <ButtonMoreOrDelete>Загрузить еще...</ButtonMoreOrDelete>}
           </div>
       } 
     </div>}

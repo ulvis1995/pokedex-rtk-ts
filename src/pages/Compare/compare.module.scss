@@ -1,0 +1,82 @@
+.compare_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: url(../../img/vector-may-2021-33.jpg) no-repeat;
+  background-size: cover;
+  min-height: 84vh;
+}
+
+.compare_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  background: rgba(252, 222, 74,0.45);
+  margin: 10px auto;
+  flex-grow: 1;
+
+  h1 {
+    align-self: center;
+  }
+}
+
+.none_compare {
+  align-self: center;
+  width: 30%;
+}
+
+.list {
+  display: flex;
+  list-style: none;
+  overflow-x: auto;
+  padding: 0;
+  gap: 10px;
+  margin: 10px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.physical_data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  color: rgb(185, 245, 252);
+  background: rgb(11, 21, 62);
+}
+
+.pokeInfo {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: bold;
+  color: #fff;
+  background: rgb(11, 21, 62);
+  border-radius: 0 0 20px 20px;
+  padding: 8px;
+  margin: 10px 0;
+}
+
+.pokeInfo div {
+  margin: 4px;
+  width: 100%;
+}
+
+.pokeInfo p {
+  font-weight: bolder;
+  color: rgb(185, 245, 252);
+  margin: 0;
+}
