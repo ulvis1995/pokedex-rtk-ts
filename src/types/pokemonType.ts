@@ -1,4 +1,31 @@
-export interface Pokemon {
+// types data about pokemon for write store
+export interface PokemonStore {
+  abilities: {
+    ability: {name: string; url: string}, 
+    is_hidden: boolean, 
+    slot: number}[],
+  height: number,
+  id: number,
+  name: string,
+  species: string,
+  stats: {base_stat: number, effort: number, stat: {name: string, url: string}}[],
+  types: {slot: number, type: {name: string, url: string}}[],
+  weight: number,
+  image: string,
+  image_2: string
+} 
+
+//initialState from PokemonDataSlice
+export interface pokemonListState {
+  pokemonList: PokemonStore[],
+  currentPokemon: string ,
+  error: string ,
+  isLoading: boolean,
+  compare: string[]
+}
+
+//type for response to each pokemon
+export interface PokemonResponse {
   abilities: {
     ability: {name: string; url: string}, 
     is_hidden: boolean, 
@@ -47,27 +74,7 @@ export interface Pokemon {
   weight: number,
 } 
 
-export interface PokemonStore {
-  abilities: {
-    ability: {name: string; url: string}, 
-    is_hidden: boolean, 
-    slot: number}[],
-  height: number,
-  id: number,
-  name: string,
-  species: string,
-  stats: {base_stat: number, effort: number, stat: {name: string, url: string}}[],
-  types: {slot: number, type: {name: string, url: string}}[],
-  weight: number,
-  image: string,
-  image_2: string
-} 
-
-export interface PokemonSpecies {
-  description: string,
-  species: string
-}
-
+//type for response from evolution chain
 export interface EvolutionChain {
   baby_trigger_item: boolean,
   chain: {

@@ -7,12 +7,9 @@ import { EvolutionChain, PokemonStore } from '../../../types/pokemonType';
 import styles from './evolution.module.scss';
 import pokeball from '../../../img/pokeball-mini.png';
 import LoadingEvo from '../../Loading/LoadingEvolution/LoadingEvo';
+import { PokeEvolutionProps } from '../../../types/componentProps';
 
-type PokeInfoProps = {
-  species: string,
-}
-
-const PokemonEvolution:React.FC<PokeInfoProps> = ({species}) => {
+const PokemonEvolution:React.FC<PokeEvolutionProps> = ({species}) => {
   const dispatch = useAppDispatch();
   const pokemonBase = useAppSelector(state => state.pokemonList.pokemonList);
   const [loading, setLoading] = React.useState<boolean>(true);

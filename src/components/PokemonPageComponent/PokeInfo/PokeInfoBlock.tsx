@@ -1,20 +1,16 @@
 import React from 'react';
 import styles from './pokeinfo.module.scss';
-import {PokemonSpecies, PokemonStore } from '../../../types/pokemonType';
 import pokeball from '../../../img/pokeball-mini.png';
+import ButtonCompare from '../../Buttons/ButtonCompare/ButtonCompare';
+import PhysicalDataPoke from '../../PhysicalDataPoke/PhysicalDataPoke';
+import { PokeInfoProps } from '../../../types/componentProps';
 
-type PokeInfoProps = {
-  pokemon: PokemonStore | undefined,
-  description: string,
-}
 
 const PokeInfoBlock: React.FC<PokeInfoProps> = ({pokemon, description}) => {
 
-  const imagePokemon = pokemon?.image !== null 
-                        ? pokemon?.image
-                        : pokemon.image_2 !== null 
-                          ? pokemon.image_2 
-                          : pokeball
+  const imagePokemon = 
+    pokemon?.image !== null ? pokemon?.image : pokemon.image_2 !== null 
+      ? pokemon.image_2 : pokeball
 
   return ( 
     <>
@@ -25,30 +21,8 @@ const PokeInfoBlock: React.FC<PokeInfoProps> = ({pokemon, description}) => {
           <div className={styles.pokeImg}>
             <img src={imagePokemon} alt={pokemon.name}/>
           </div>
-          <div className={styles.pokeInfo}>
-            <div>
-              <p>Height</p>
-              <span>{`${pokemon.height/10}m`}</span>
-            </div>
-            <div>
-              <p>Weight</p>
-              <span>{`${pokemon.weight/10}kg`}</span>
-            </div>
-            <div>
-              <p>Abilities</p>
-              { pokemon.abilities.map(item => <span key={item.ability.name}>{!item.is_hidden ? item.ability.name : ''}</span>)}
-            </div>
-            {description !== '' 
-            ?<div className={styles.versions}>
-              <div>
-                <p>Description</p>
-              </div>
-              <div className={styles.versionsText}>
-                <p>{description}</p>
-              </div>
-            </div>
-            : ''}
-          </div>
+          <PhysicalDataPoke pokemon={pokemon} description={description}/>
+          <ButtonCompare name={pokemon.name}>Сравнить</ButtonCompare>
         </div>    
         <div className={styles.types}>
           <h3>Types</h3>

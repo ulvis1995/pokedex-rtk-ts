@@ -1,31 +1,9 @@
 import { createAsyncThunk, createSlice, AnyAction, PayloadAction } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { PokemonStore } from "../../types/pokemonType";
+import { loadPokemonResponse, loadPokemonState, Results } from '../../types/loadPokemonAndFilter';
 
-export interface Results {
-  name: string,
-  url: string
-}
 
-export interface loadPokemon {
-  isLoading?: boolean,
-  error?: string,
-  mainFilter?: string,
-  search?: string | null | undefined,
-  next: string | null,
-  previous: string | null,
-  count: number | null,
-  results: Results[]
-}
-
-interface loadMore {
-  count: number,
-  next: string,
-  previous: string,
-  results: Results []
-}
-
-const initialState: loadPokemon = {
+const initialState: loadPokemonState = {
   isLoading: false,
   error: '',
   mainFilter: 'ascending_numbers',
@@ -36,11 +14,11 @@ const initialState: loadPokemon = {
   results: []
 }
 
-export const fetchloadPokemon = createAsyncThunk<loadPokemon, undefined, {rejectValue: string}>(
+export const fetchloadPokemon = createAsyncThunk<loadPokemonResponse, undefined, {rejectValue: string}>(
   'loadPokemon/fetchloadPokemon',
   async function (_, {rejectWithValue}) {
     try {
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/`, 
+      const response = await axios.get<loadPokemonResponse>(`https://pokeapi.co/api/v2/pokemon/`, 
           {headers: {
             'Content-Type': 'application/json'}})
   
@@ -58,11 +36,11 @@ export const fetchloadPokemon = createAsyncThunk<loadPokemon, undefined, {reject
   }  
 )
 
-export const fetchloadPokemonMore = createAsyncThunk<loadMore, string | null, {rejectValue: string}>(
+export const fetchloadPokemonMore = createAsyncThunk<loadPokemonResponse, string | null, {rejectValue: string}>(
   'loadPokemon/fetchloadPokemonMore',
   async function (url, {rejectWithValue}) {
     try {
-const response = await axios.get(`${url}`, 
+const response = await axios.get<loadPokemonResponse>(`${url}`, 
         {headers: {
           'Content-Type': 'application/json'}})
 

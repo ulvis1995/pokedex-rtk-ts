@@ -1,51 +1,8 @@
 import { createAsyncThunk, createSlice, AnyAction, PayloadAction} from "@reduxjs/toolkit";
-import axios, { AxiosError } from 'axios';
-import { Results } from "./LoadPokemonSlice";
+import axios from 'axios';
+import { Results, typeItemResponse, typeResponse, TypesState } from '../../types/loadPokemonAndFilter';
 
-type Result = {
-  name: string, 
-  url: string
-}
-
-export interface Types {
-  type: string | null,
-  types: Result[],
-  error: string,
-  isLoading: boolean,
-  pokemonType: Results[]
-}
-
-export interface typeResponse {
-  count: number,
-  next: string,
-  previous: string,
-  results: Result[]
-} 
-
-export interface typeItemResponse {
-  damage_relations: {
-    double_damage_from: [],
-    double_damage_to: [],
-    half_damage_from:  [],
-    half_damage_to: [],
-    no_damage_from: [],
-    no_damage_to: []
-  },
-  game_indices: [],
-  generation: {name: string, url: string},
-  id: number,
-  move_damage_class: {name: string, url: string},
-  moves: [],
-  name: string,
-  names: [],
-  past_damage_relations: [],
-  pokemon: {
-    pokemon: {name: string, url: string},
-    slot: number
-  }[]
-}
-
-const initialState: Types = {
+const initialState: TypesState = {
   error: '',
   isLoading: false,
   type: null,

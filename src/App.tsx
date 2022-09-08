@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 import ButtonScroll from './components/Buttons/Scroll/ButtonScroll';
 import PokemonPage from './pages/PokemonPage/PokemonPage';
 import { useAppSelector } from './app/hooks';
+import ComparePage from './pages/Compare/ComparePage';
 
 function App() {
   const name = useAppSelector( state => state.pokemonList.currentPokemon);
@@ -16,6 +17,7 @@ function App() {
       <Header/>
       <Routes>
         <Route path='/' element={<Main />} />
+        <Route path='/compare' element={<ComparePage />} />
         <Route path ={`/${name}`} element={<PokemonPage name={name}/>} />
       </Routes>
       <Footer />
