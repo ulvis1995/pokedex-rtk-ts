@@ -1,8 +1,11 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+
 import { addPokemonToCompare, removePokemonCompare } from '../../../store/slices/PokemonDataSlice';
-import { ButtonCompareProps } from '../../../types/componentProps';
+
 import styles from './buttonCompare.module.scss';
+
+import { ButtonCompareProps } from '../../../types/componentProps';
 
 
 const ButtonCompare: React.FC<ButtonCompareProps> = (props) =>  {  

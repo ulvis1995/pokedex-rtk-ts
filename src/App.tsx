@@ -1,15 +1,18 @@
 import React from 'react';
-import Footer from './components/Footer/Footer';
-import Header from './components/Header/Header';
-import Main from './pages/Main/Main';
-import styles from './App.module.scss';
 import { Route, Routes } from 'react-router-dom';
-import ButtonScroll from './components/Buttons/Scroll/ButtonScroll';
-import PokemonPage from './pages/PokemonPage/PokemonPage';
 import { useAppSelector } from './app/hooks';
+
+import styles from './App.module.scss';
+
+import Main from './pages/Main/Main';
+import PokemonPage from './pages/PokemonPage/PokemonPage';
 import ComparePage from './pages/Compare/ComparePage';
 
-function App() {
+import Footer from './components/Footer/Footer';
+import Header from './components/Header/Header';
+import ButtonScroll from './components/Buttons/Scroll/ButtonScroll';
+
+const App: React.FC = () => {
   const name = useAppSelector( state => state.pokemonList.currentPokemon);
 
   return (

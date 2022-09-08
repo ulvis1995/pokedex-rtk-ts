@@ -1,9 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
 import loadPokemonReducer from './slices/LoadPokemonSlice';
 import pokemonReducer from './slices/PokemonDataSlice';
 import typeReducer from './slices/TypesSlice';
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 
 const rootReducer = combineReducers({
   loadPokemon: loadPokemonReducer,
@@ -13,8 +14,7 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
   key: 'root',
-  storage,
-  blacklist: ['pokemonList', 'types']
+  storage
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

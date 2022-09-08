@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { PhysicalProps } from '../../types/componentProps';
 import styles from './physical.module.scss';
+import { PhysicalProps } from '../../types/componentProps';
 
 const PhysicalDataPoke: React.FC<PhysicalProps> = ({pokemon, description}) => {
   const location = useLocation();

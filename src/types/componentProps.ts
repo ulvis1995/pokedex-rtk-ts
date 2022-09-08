@@ -1,3 +1,4 @@
+import { Results } from "./loadPokemonAndFilter";
 import { PokemonStore } from "./pokemonType";
 
 export interface ButtonCompareProps {
@@ -9,8 +10,14 @@ export interface ButtonProps {
   children: React.ReactNode,
 }
 
-export interface MiniCartProps {
+export interface MiniCardProps {
   name: string,
+}
+
+export interface MiniCardTermsProps {
+  search: string | null,
+  pokemons: Results[],
+  urlType: string | null
 }
 
 export interface PokeInfoProps {

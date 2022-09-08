@@ -1,6 +1,8 @@
 import React from 'react';
+
 import pokeball from '../../../img/pokeballLoad.png';
 import styles from './loadingMini.module.scss';
+
 import { Skeleton } from 'antd';
 
 const LoadingMini: React.FC = () =>  {
