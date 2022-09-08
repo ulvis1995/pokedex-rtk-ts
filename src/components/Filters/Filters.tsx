@@ -1,21 +1,22 @@
 import React from 'react';
 import styles from './filters.module.scss';
-import { Input, Select } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { chooseMainFilter, searchPokemon } from '../../store/slices/LoadPokemonSlice';
+
 import { chooseType, fetchChooseType, fetchTypes } from '../../store/slices/TypesSlice';
+import { searchPokemon } from '../../store/slices/PokemonDataSlice';
+
+import { Input, Select } from 'antd';
 const { Search } = Input;
 const { Option } = Select;
 
 
 const Filters: React.FC = () => {
-  const errorType = useAppSelector( state => state.types.error);
-  const types = useAppSelector (state => state.types.types);
-  const urlType = useAppSelector ( state => state.types.type);
   const dispatch = useAppDispatch();
+  const {error, types, type} = useAppSelector( ({types}) => types);
 
   const handleInputSearch = (search: string) => {    
     dispatch(searchPokemon(search))
+    dispatch(chooseType(null))
   }
 
   const handleChangeTypes = (value: string) => {
@@ -24,10 +25,10 @@ const Filters: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(fetchTypes());
-    if (urlType !== null) {
-      dispatch(fetchChooseType(urlType))
+    if (type !== null) {
+      dispatch(fetchChooseType(type))
     }
-  }, [urlType])
+  }, [type])
 
   return (
     <div className={styles.filters}>
@@ -36,10 +37,10 @@ const Filters: React.FC = () => {
         placeholder="Поиск по имени или номеру" 
         allowClear 
         onSearch={handleInputSearch} />
-      {errorType === 'Types not loaded'
+      {error === 'Types not loaded'
         ? ''
         : <Select
-            value={urlType}
+            value={type}
             placeholder='Тип' allowClear 
             className={styles.types}
             onChange={handleChangeTypes}>

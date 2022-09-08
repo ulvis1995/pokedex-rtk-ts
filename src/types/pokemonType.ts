@@ -19,6 +19,7 @@ export interface PokemonStore {
 export interface pokemonListState {
   pokemonList: PokemonStore[],
   currentPokemon: string ,
+  search: string | null,
   error: string ,
   isLoading: boolean,
   compare: string[]

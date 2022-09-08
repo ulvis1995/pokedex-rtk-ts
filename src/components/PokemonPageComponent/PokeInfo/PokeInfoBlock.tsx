@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './pokeinfo.module.scss';
 import pokeball from '../../../img/pokeball-mini.png';
+
 import ButtonCompare from '../../Buttons/ButtonCompare/ButtonCompare';
 import PhysicalDataPoke from '../../PhysicalDataPoke/PhysicalDataPoke';
+
 import { PokeInfoProps } from '../../../types/componentProps';
 
-
 const PokeInfoBlock: React.FC<PokeInfoProps> = ({pokemon, description}) => {
-
   const imagePokemon = 
     pokemon?.image !== null ? pokemon?.image : pokemon.image_2 !== null 
       ? pokemon.image_2 : pokeball
@@ -15,8 +15,7 @@ const PokeInfoBlock: React.FC<PokeInfoProps> = ({pokemon, description}) => {
   return ( 
     <>
     {pokemon 
-    ?
-      <div className={styles.wrapper}>      
+    ?<div className={styles.wrapper}>      
         <div className={styles.pokemonBlock}>
           <div className={styles.pokeImg}>
             <img src={imagePokemon} alt={pokemon.name}/>

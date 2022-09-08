@@ -5,10 +5,9 @@ export interface Results {
 
 //initialState for LoadPokemonSlice
 export interface loadPokemonState {
-  isLoading: boolean,
+  isLoadingFirst: boolean,
+  isLoadingMore: boolean,
   error: string,
-  mainFilter: string,
-  search: string | null,
   next: string | null,
   previous: string | null,
   count: number | null,

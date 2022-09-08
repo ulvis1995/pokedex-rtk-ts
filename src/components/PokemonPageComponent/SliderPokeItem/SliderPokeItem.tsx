@@ -1,39 +1,44 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import styles from './sliderPoke.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { choosePokemon, fetchPokemonItem } from '../../../store/slices/PokemonDataSlice';
 import { SliderProps } from '../../../types/componentProps';
-import styles from './sliderPoke.module.scss';
+import { pokemonName, pokemonNumber } from '../../../functions/pokemonData';
 
 const SliderPokeItem: React.FC<SliderProps> = ({pokemon}) => {
   const dispatch = useAppDispatch ();
 
   const pokemonNext = useAppSelector(state => 
-    state.pokemonList.pokemonList.find(
-      poke => poke.id === (pokemon && pokemon.id + 1)
+    state.pokemonList.pokemonList.find(poke => {
+      if (pokemon && pokemon.id + 1 === 906) {
+        return poke.id === 1
+      }
+      return poke.id === (pokemon && pokemon.id + 1)}
     ))
 
   const pokemonPrev = useAppSelector(state => 
-    state.pokemonList.pokemonList.find(
-      poke => poke.id === (pokemon && pokemon.id - 1)
+    state.pokemonList.pokemonList.find(poke => { 
+      if (pokemon && pokemon.id - 1 === 0) {
+        return poke.id === 905
+      } 
+      return poke.id === (pokemon && pokemon.id - 1)}
     ))
 
   React.useEffect(() => {
-    if (!pokemonNext && pokemon) {
+    if (!pokemonNext && pokemon && (pokemon.id + 1 < 906)) {
       dispatch(fetchPokemonItem(pokemon.id+1))
     }
   
-    if (!pokemonPrev && pokemon &&  pokemon.id - 1 !== 0 ) {
+    if (!pokemonPrev && pokemon && (pokemon.id - 1 !== 0) && (pokemon.id < 906) ) {
       dispatch(fetchPokemonItem(pokemon.id-1))
     }
   }, [pokemon])
 
-  const nameCapitalize = pokemon && 
-    pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-  const nameCapNext = pokemonNext && 
-    pokemonNext.name.charAt(0).toUpperCase() + pokemonNext.name.slice(1);
-  const nameCapPrevious = pokemonPrev && 
-    pokemonPrev.name.charAt(0).toUpperCase() + pokemonPrev.name.slice(1);
+  const nameCapitalize = pokemon && pokemonName(pokemon);
+  const nameCapNext = pokemonNext && pokemonName(pokemonNext);
+  const nameCapPrevious = pokemonPrev && pokemonName(pokemonPrev);
 
   return (
     <div className={styles.slider}>
@@ -44,25 +49,13 @@ const SliderPokeItem: React.FC<SliderProps> = ({pokemon}) => {
           onClick={() => dispatch(choosePokemon(pokemonPrev?.name))}>
           <button>&#10096;</button>
           <div>
-            <p>{`${pokemonPrev &&
-                pokemonPrev.id < 10
-                  ? '00'+pokemonPrev.id
-                  : pokemonPrev && pokemonPrev.id >=10 && pokemonPrev.id<100
-                  ? '0'+pokemonPrev.id
-                  : pokemonPrev?.id
-                }`}</p>
+            <p>{pokemonNumber(pokemonPrev)}</p>
             <p>{nameCapPrevious}</p>
           </div>
         </Link>
         : <div className={styles.pokemonStepEmpty}></div>}
       <div className={styles.pokemonId}>
-        <p>{`${pokemon &&
-              pokemon.id < 10
-                ? '00'+pokemon.id
-                : pokemon && pokemon.id >=10 && pokemon.id<100
-                ? '0'+pokemon.id
-                : pokemon?.id
-              }`}
+        <p>{pokemon && pokemonNumber(pokemon)}
         </p>
         <p>{nameCapitalize}</p>
       </div>
@@ -71,13 +64,7 @@ const SliderPokeItem: React.FC<SliderProps> = ({pokemon}) => {
           className={`${styles.pokemonStep} ${styles.right}`}
           onClick={() => dispatch(choosePokemon(pokemonNext?.name))}>
           <div>
-            <p>{`${pokemonNext &&
-                pokemonNext.id < 10
-                  ? '00'+pokemonNext.id
-                  : pokemonNext && pokemonNext.id >=10 && pokemonNext.id<100
-                  ? '0'+pokemonNext.id
-                  : pokemonNext?.id
-                }`}</p>
+            <p>{pokemonNumber(pokemonNext)}</p>
             <p>{nameCapNext}</p>
           </div>
           <button>&#10097;</button>
@@ -87,4 +74,4 @@ const SliderPokeItem: React.FC<SliderProps> = ({pokemon}) => {
   )
 }
 
-export default SliderPokeItem
+export default SliderPokeItem;

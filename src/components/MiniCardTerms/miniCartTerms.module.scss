@@ -1,0 +1,8 @@
+.block {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  height: 100%;
+  flex-grow: 1;
+  margin: 20px auto;
+}

@@ -1,14 +1,18 @@
 import React from 'react';
+
+import st from './compare.module.scss';
+import noneCompare from '../../img/errorMain.webp';
+
 import { useAppSelector } from '../../app/hooks';
 import ButtonCompare from '../../components/Buttons/ButtonCompare/ButtonCompare';
-import MiniCartPokemon from '../../components/MiniCartPokemon/MiniCartPokemon';
+import MiniCartPokemon from '../../components/MiniCartPokemon/MiniCardPokemon';
 import PhysicalDataPoke from '../../components/PhysicalDataPoke/PhysicalDataPoke';
+import ButtonMoreOrDelete from '../../components/Buttons/MoreOrDelete/ButtonMoreOrDelete';
+
 import { PokemonStore } from '../../types/pokemonType';
-import st from './compare.module.scss';
-import noneCompare from '../../img/errorMain.webp'
-import ButtonMoreOrDelete from '../../components/Buttons/More/ButtonMoreOrDelete';
 import ReactApexChart from 'react-apexcharts';
 import { optionsCall, seriesCall } from './apexData';
+import { reduceArrayPokemonsStore } from '../../functions/reduceArray';
 
 const ComparePage: React.FC = () => {
   const compareList = useAppSelector (state => state.pokemonList.compare);
@@ -18,18 +22,13 @@ const ComparePage: React.FC = () => {
     return res
     }, [])
 
-  const comparablePokemons = compareList.reduce((res: PokemonStore[], poke) => {
+  const comparablePokemons = reduceArrayPokemonsStore(
+    compareList.reduce((res: PokemonStore[], poke) => {
     pokemons.forEach((item) => {
       if(item.name === poke)  res.push(item)
     })
     return res
-  }, [])
-  .reduce((res: PokemonStore[], poke) => {
-    if (!res.find(i => i === poke)) {
-      res.push(poke)
-    }
-    return res
-  }, [])
+  }, []))
 
   return (
     <div className={st.compare_wrapper}>

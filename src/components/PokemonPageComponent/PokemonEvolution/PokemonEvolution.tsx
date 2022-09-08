@@ -1,13 +1,19 @@
-import axios from 'axios';
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import axios from 'axios';
+import styles from './evolution.module.scss';
+import pokeball from '../../../img/pokeball-mini.png';
+
+import LoadingEvo from '../../Loading/LoadingEvolution/LoadingEvo';
+
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { addPokemon, choosePokemon } from '../../../store/slices/PokemonDataSlice';
 import { EvolutionChain, PokemonStore } from '../../../types/pokemonType';
-import styles from './evolution.module.scss';
-import pokeball from '../../../img/pokeball-mini.png';
-import LoadingEvo from '../../Loading/LoadingEvolution/LoadingEvo';
 import { PokeEvolutionProps } from '../../../types/componentProps';
+
+import { pokemonDataResponse } from '../../../functions/pokemonDataResponse';
+import { reduceArrayPokemonsStore } from '../../../functions/reduceArray';
 
 const PokemonEvolution:React.FC<PokeEvolutionProps> = ({species}) => {
   const dispatch = useAppDispatch();
@@ -17,7 +23,7 @@ const PokemonEvolution:React.FC<PokeEvolutionProps> = ({species}) => {
   const [evolutionList, setPokemons] = React.useState<PokemonStore[]>([]);
 
   const loadSpecies = async () => {
-    if (species) {
+    if (species !== '') {
       const response = await axios.get(species)
       const data = response.data;
       setEvolUrl(data)
@@ -25,6 +31,8 @@ const PokemonEvolution:React.FC<PokeEvolutionProps> = ({species}) => {
   }
 
   React.useEffect(() => {
+    setPokemons([])
+    setLoading(true);
     loadSpecies()
   }, [species])
 
@@ -40,18 +48,7 @@ const PokemonEvolution:React.FC<PokeEvolutionProps> = ({species}) => {
       } else {
         const responce = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
         const data = await responce.data;
-        const newPokemon = {
-          name: data.name,
-          abilities: data.abilities,
-          height: data.height,
-          id: data.id,
-          species: data.species.url,
-          image: data.sprites.other.dream_world.front_default,
-          image_2: data.sprites.other['official-artwork'].front_default,
-          stats: data.stats,
-          types: data.types, 
-          weight: data.weight
-        }
+        const newPokemon = pokemonDataResponse(data)
         setPokemons((prev) => [...prev, {...newPokemon}])
         dispatch(addPokemon(newPokemon))
       }
@@ -69,50 +66,59 @@ const PokemonEvolution:React.FC<PokeEvolutionProps> = ({species}) => {
       fetchEvolution();
       setLoading(false);
       return () => {
-        setPokemons([])
+        setPokemons([]);
       }
     }
   }, [evolutionListUrl])
+
+  React.useEffect(() => {
+    setLoading(false);
+  }, [firstStep])
+
 
   return (
     <div className={styles.wrapper}>
       {loading 
       ? <LoadingEvo />
-      :<div className={styles.content}>
-        <div className={styles.title}>
-          <h2>Evolution</h2>
-        </div>
-        <div className={styles.evolution_list}>
-          {evolutionList.map(poke => {
-              const imagePokemon = poke?.image !== null 
-                                  ? poke?.image
-                                  : poke.image_2 !== null 
-                                    ? poke.image_2 
-                                    : pokeball
-            
-            return (
-              <Link to={{pathname: `/${poke.name}`}} 
-                className={styles.evolution_item}
-                key={poke.name}
-                onClick={() => dispatch(choosePokemon(poke.name))}>
-                <div className={styles.imageBlock}>
-                  <img src={imagePokemon} alt={poke?.name}/>
-                </div>
-                <div className={styles.info}>
-                  <h3>{poke?.name}</h3>
-                  <div className={styles.types}>
-                    {poke?.types.map(type => 
-                      <p className={`${styles.typeItem} ` + type.type.name}
-                        key={type.type.name}>
-                        {type.type.name}
-                      </p>
-                      )}
+      :<>{evolutionList.length !== 0
+        ? <div className={styles.content}>
+          <div className={styles.title}>
+            <h2>Evolution</h2>
+          </div>
+          <div className={styles.evolution_list}>
+            {reduceArrayPokemonsStore(evolutionList).map(poke => {
+                const imagePokemon = poke?.image !== null 
+                  ? poke?.image : poke.image_2 !== null 
+                    ? poke.image_2 : pokeball
+              
+              return (
+                <Link to={{pathname: `/${poke.name}`}} 
+                  className={styles.evolution_item}
+                  key={poke.name}
+                  onClick={() => dispatch(choosePokemon(poke.name))}>
+                  <div className={styles.imageBlock}>
+                    <img src={imagePokemon} alt={poke?.name}/>
                   </div>
-                </div>
-              </Link >
-            )})}
+                  <div className={styles.info}>
+                    <h3>{poke?.name}</h3>
+                    <div className={styles.types}>
+                      {poke?.types.map(type => 
+                        <p className={`${styles.typeItem} ` + type.type.name}
+                          key={type.type.name}>
+                          {type.type.name}
+                        </p>
+                        )}
+                    </div>
+                  </div>
+                </Link >
+              )})}
+          </div>
         </div>
-      </div>}
+        :<div className={styles.content}>
+          <h1>Эволюционная цепочка не найдена</h1>
+         </div>}
+      </>
+      }
     </div>
   )
 }
