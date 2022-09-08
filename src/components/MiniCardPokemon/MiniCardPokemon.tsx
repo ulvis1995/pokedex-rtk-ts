@@ -11,7 +11,7 @@ import { choosePokemon, fetchPokemonItem, loadingState } from '../../store/slice
 import { MiniCardProps } from '../../types/componentProps';
 import { pokemonName, pokemonNumber } from '../../functions/pokemonData';
 
-const MiniCartPokemon: React.FC<MiniCardProps> = ({name}) => {
+const MiniCardPokemon: React.FC<MiniCardProps> = ({name}) => {
   const loading = useAppSelector(state => state.pokemonList.isLoading)
   const pokemon = useAppSelector(state => 
     state.pokemonList.pokemonList.find(
@@ -61,4 +61,4 @@ const MiniCartPokemon: React.FC<MiniCardProps> = ({name}) => {
   )
 }
 
-export default React.memo(MiniCartPokemon);
+export default React.memo(MiniCardPokemon);
