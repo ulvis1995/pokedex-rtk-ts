@@ -19,7 +19,7 @@
   color: #fff;
 }
 
-.link:hover {
+.link:hover, .link:focus {
   color: rgb(252, 8, 8);
   text-shadow: 1px 1px #000;
 }

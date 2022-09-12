@@ -17,7 +17,7 @@
   margin: 0 auto;
 }
 
-.btn:hover {
+.btn:hover, .btn:focus   {
   color: rgb(11, 21, 62);
   background-color: rgb(185, 245, 252);
   box-shadow: 0 0 30px rgb(40, 236, 37);

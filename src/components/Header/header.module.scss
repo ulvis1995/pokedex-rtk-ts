@@ -23,6 +23,22 @@
 .link {
   text-decoration: none;
   margin: 0 10px;
+
+  &:hover, &:focus {
+    background-color: rgba(83, 119, 249, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgb(83, 119, 249, 1);
+
+    .compare {
+      background-color: rgba(83, 119, 249, 0.5);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgb(83, 119, 249, 1);
+    }
+
+    p {
+     color: rgb(102, 237, 249);
+    }
+  }
 }
 
 .img {
@@ -84,15 +100,5 @@
     p {
       margin: 0;
     }
-  }
-}
-
-.compare:hover {
-  background-color: rgba(83, 119, 249, 0.5);
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgb(83, 119, 249, 1);
-  
-  p {
-    color: rgb(102, 237, 249);
   }
 }
