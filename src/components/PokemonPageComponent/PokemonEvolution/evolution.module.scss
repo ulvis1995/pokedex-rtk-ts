@@ -54,7 +54,8 @@
   }
 }
 
-.evolution_item:hover .imageBlock{
+.evolution_item:hover .imageBlock,
+.evolution_item:focus .imageBlock {
   box-shadow: 0 0 20px rgb(185, 245, 252);
 }
 
